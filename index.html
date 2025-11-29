@@ -114,8 +114,214 @@
         <select id="electiveSelect" disabled>
           <option value="">Select elective</option>
           <option value="CHEM 1101 — Chemistry I">CHEM 1101 — Chemistry I</option>
-          <option value="BIOL 1103 — Foundations of Biology I">BIOL 1103 — Foundations of Biology I</option>
+          <option value="BIOL 1103
+                      <option value="BIOL 1103 — Foundations of Biology I">BIOL 1103 — Foundations of Biology I</option>
           <option value="ERTH 1006 — Exploring Planet Earth">ERTH 1006 — Exploring Planet Earth</option>
         </select>
       </label><br>
-      <label
+      <label><input type="checkbox" class="course-input" data-code="ECOR 1055" data-title="Intro to Engineering Disciplines I" data-components="lecture" data-credits="0.0" checked /> ECOR 1055 – Intro to Engineering Disciplines I (0.0 credit)</label><br>
+      <label><input type="checkbox" class="course-input" data-code="ECOR 1057" data-title="Engineering Profession" data-components="lecture" data-credits="0.0" checked /> ECOR 1057 – Engineering Profession (0.0 credit)</label>
+
+      <div class="legend">
+        <div class="legend-item"><span class="legend-swatch" style="background: var(--lecture)"></span> Lecture</div>
+        <div class="legend-item"><span class="legend-swatch" style="background: var(--tutorial)"></span> Tutorial</div>
+        <div class="legend-item"><span class="legend-swatch" style="background: var(--lab)"></span> Lab</div>
+      </div>
+
+      <p class="note">
+        Note: Some courses include tutorials (e.g., MATH 1004/1104) and some include labs (e.g., ECOR 1031/1032).
+        These will be scheduled automatically in your timetable.
+      </p>
+    </div>
+    <button class="btn" onclick="nextStep('step2', 2)">Next →</button>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Step 2 -->
+  <div id="step2" class="section">
+    <h2>Step 2: Set Your Preferences</h2>
+    <div class="card">
+      <label><input type="checkbox" class="pref" data-key="noEarly" /> No classes before 10am</label><br>
+      <label><input type="checkbox" class="pref" data-key="minBreaks" /> Minimize breaks between sessions</label><br>
+      <label><input type="checkbox" class="pref" data-key="compact" /> Compact schedule (finish earlier)</label><br>
+      <label><input type="checkbox" class="pref" data-key="avoidBackToBackLabs" /> Avoid back-to-back labs</label>
+      <p class="note">Preferences guide how lectures, tutorials, and labs are arranged in the options below.</p>
+    </div>
+    <button class="btn" onclick="nextStep('step3', 3)">Next →</button>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Step 3 -->
+  <div id="step3" class="section">
+    <h2>Step 3: Optimized Timetable Options</h2>
+    <div class="timetables">
+      <div class="card">
+        <h3>Option A — Compact, early finish</h3>
+        <div id="optionA" class="timetable"></div>
+        <p class="note">Leans earlier in the day, groups tutorials after lectures where possible.</p>
+        <button class="btn selectBtn" data-option="A">Select Option A</button>
+      </div>
+      <div class="card">
+        <h3>Option B — Balanced workload</h3>
+        <div id="optionB" class="timetable"></div>
+        <p class="note">Distributes lectures/tutorials/labs across the week to reduce daily intensity.</p>
+        <button class="btn selectBtn" data-option="B">Select Option B</button>
+      </div>
+      <div class="card">
+        <h3>Option C — Late start, minimal breaks</h3>
+        <div id="optionC" class="timetable"></div>
+        <p class="note">Starts later, tries to cluster sessions to avoid long waits.</p>
+        <button class="btn selectBtn" data-option="C">Select Option C</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4: Confirmation -->
+  <div id="confirmation" class="section">
+    <h2>SmartSched — Schedule Confirmed</h2>
+    <div class="card">
+      <p id="chosenText"></p>
+      <div id="preview" class="timetable"></div>
+      <div class="breakdown-list" id="breakdown"></div>
+      <div style="margin-top:16px;">
+        <button class="btn" onclick="alert('📅 Added to calendar (mock)!')">Add to calendar</button>
+        <button class="btn" onclick="alert('📄 PDF downloaded (mock)!')">Download PDF</button>
+        <button class="btn" onclick="alert('📧 Shared with advisor (mock)!')">Share with advisor</button>
+      </div>
+      <p class="note">Exports are mock actions for demo purposes.</p>
+    </div>
+    <button class="btn" onclick="restart()">Back to Start</button>
+  </div>
+
+</div>
+
+<script>
+  // Elective dropdown toggle
+  const electiveToggle = document.getElementById('electiveToggle');
+  const electiveSelect = document.getElementById('electiveSelect');
+
+  electiveToggle.addEventListener('change', () => {
+    electiveSelect.disabled = !electiveToggle.checked;
+    updateSummary();
+  });
+  electiveSelect.addEventListener('change', updateSummary);
+
+  // Summary bar update
+  function updateSummary() {
+    const inputs = document.querySelectorAll('.course-input');
+    let count = 0;
+    let credits = 0;
+    inputs.forEach(input => {
+      if (input.checked) {
+        count++;
+        credits += parseFloat(input.dataset.credits || '0');
+      }
+    });
+    document.getElementById('selectedCount').textContent = count;
+    document.getElementById('creditTotal').textContent = credits.toFixed(1);
+  }
+  document.querySelectorAll('.course-input').forEach(el => el.addEventListener('change', updateSummary));
+  updateSummary();
+
+  // Navigation
+  function nextStep(stepId, progressNum) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(stepId).classList.add('active');
+    updateProgress(progressNum);
+    if (stepId === 'step3') buildOptions();
+  }
+  function updateProgress(step) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById('progress' + step).classList.add('active');
+  }
+  function restart() {
+    nextStep('step1', 1);
+    electiveToggle.checked = false;
+    electiveSelect.disabled = true;
+    electiveSelect.value = "";
+    updateSummary();
+  }
+
+  // Build timetable options
+  function getSelectedCourses() {
+    const inputs = document.querySelectorAll('.course-input');
+    const courses = [];
+    inputs.forEach(input => {
+      if (input.checked) {
+        const code = input.dataset.code;
+        const title = input.dataset.title;
+        const comps = input.dataset.components.split(',');
+        courses.push({ code, title, components: comps });
+      }
+    });
+    return courses;
+  }
+  function blocksForCourse(course, dayOffset = 0) {
+    const blocks = [];
+    course.components.forEach((comp, idx) => {
+      const labelShort = comp === 'lecture' ? 'Lec' : comp === 'tutorial' ? 'Tut' : 'Lab';
+      blocks.push({
+        type: comp,
+        title: `${course.code} ${labelShort}`,
+        col: (idx + dayOffset) % 5
+      });
+    });
+    return blocks;
+  }
+  function renderTimetable(containerId, courses) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    let allBlocks = [];
+    courses.forEach((c, ci) => {
+      allBlocks = allBlocks.concat(blocksForCourse(c, ci));
+    });
+    allBlocks.forEach(b => {
+      const div = document.createElement('div');
+      div.className = `block ${b.type}`;
+      div.style.gridColumn = (b.col + 1);
+      div.innerHTML = `<span>${b.title}</span>`;
+      container.appendChild(div);
+    });
+  }
+  function buildOptions() {
+    const courses = getSelectedCourses();
+    renderTimetable('optionA', courses);
+    renderTimetable('optionB', courses);
+    renderTimetable('optionC', courses);
+  }
+
+  // Confirmation
+  document.querySelectorAll('.selectBtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const chosen = btn.dataset.option;
+      const courses = getSelectedCourses();
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById('confirmation').classList.add('active');
+      updateProgress(4);
+      document.getElementById('chosenText').innerHTML =
+        `You selected <strong
+                `You selected <strong>Option ${chosen}</strong>. Lectures, tutorials, and labs for your courses are included.`;
+
+      // Render preview timetable
+      renderTimetable('preview', courses);
+
+      // Render breakdown list
+      const breakdown = document.getElementById('breakdown');
+      breakdown.innerHTML = '';
+      courses.forEach(c => {
+        const compText = c.components.map(x =>
+          x === 'lecture' ? 'Lecture' : x === 'tutorial' ? 'Tutorial' : 'Lab'
+        ).join(' + ');
+        const item = document.createElement('div');
+        item.className = 'breakdown-item';
+        item.textContent = `${c.code} — ${c.title}: ${compText}`;
+        breakdown.appendChild(item);
+      });
+    });
+  });
+</script>
+</body>
+</html>
+            
