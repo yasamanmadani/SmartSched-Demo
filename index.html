@@ -9,12 +9,48 @@
     header h1 { margin: 0; font-size: 28px; }
     header p { margin: 5px 0 0; font-size: 16px; }
 
-    .progress { display: flex; justify-content: space-around; margin: 20px; }
-    .step { flex: 1; text-align: center; position: relative; }
-    .step::before { content: ''; position: absolute; top: 12px; left: 50%; width: 100%; height: 4px; background: #ccc; z-index: -1; }
-    .step:first-child::before { display: none; }
-    .circle { width: 24px; height: 24px; border-radius: 50%; background: #ccc; margin: 0 auto; line-height: 24px; color: #fff; }
-    .active .circle { background: #8B0000; }
+    .welcome { background: #fff; padding: 20px; text-align: center; font-size: 18px; color: #333; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+
+    .progress {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 30px 20px;
+      position: relative;
+    }
+
+    .progress::before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      height: 4px;
+      background: #ccc;
+      z-index: -1;
+    }
+
+    .step {
+      text-align: center;
+      flex: 1;
+      position: relative;
+    }
+
+    .circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #ccc;
+      margin: 0 auto;
+      line-height: 24px;
+      color: #fff;
+      z-index: 1;
+      position: relative;
+    }
+
+    .active .circle {
+      background: #8B0000;
+    }
 
     .container { padding: 30px; max-width: 900px; margin: auto; }
     .section { display: none; }
@@ -36,6 +72,11 @@
   <p>Smarter schedules, stronger success</p>
 </header>
 
+<div class="welcome">
+  👋 Welcome Sam (Mechanical Engineering student)<br>
+  First Year · First Semester · Fall Term
+</div>
+
 <div class="progress">
   <div class="step" id="progress1"><div class="circle">1</div><p>Courses</p></div>
   <div class="step" id="progress2"><div class="circle">2</div><p>Preferences</p></div>
@@ -47,11 +88,15 @@
 
   <!-- Step 1 -->
   <div id="step1" class="section active">
-    <h2>Step 1: Select Courses</h2>
+    <h2>Step 1: Select Your Fall Term Courses</h2>
     <div class="card">
-      <label><input type="checkbox"> Calculus I</label><br>
-      <label><input type="checkbox"> Electronics I</label><br>
-      <label><input type="checkbox"> Physics I</label>
+      <label><input type="checkbox"> MATH 1004 – Calculus for Engineering Students</label><br>
+      <label><input type="checkbox"> MATH 1104 – Linear Algebra for Engineering Students</label><br>
+      <label><input type="checkbox"> Basic Science Elective</label><br>
+      <label><input type="checkbox"> ECOR 1031 – Programming & Data Management</label><br>
+      <label><input type="checkbox"> ECOR 1032 – Circuits & Mechatronics</label><br>
+      <label><input type="checkbox"> ECOR 1055 – Introduction to Engineering Disciplines I (0.0 credit)</label><br>
+      <label><input type="checkbox"> ECOR 1057 – Engineering Profession (0.0 credit)</label>
     </div>
     <button class="btn" onclick="nextStep(2)">Next →</button>
   </div>
@@ -140,36 +185,4 @@
 
   const buttons = document.querySelectorAll('.selectBtn');
   buttons.forEach(btn => {
-    btn.addEventListener('click', function() {
-      const chosen = this.dataset.option;
-      let preview = "";
-      if (chosen === "A") {
-        preview = `<div class="timetable">
-                     <div class="block lecture"></div>
-                     <div class="block lab"></div>
-                     <div class="block tutorial"></div>
-                   </div>`;
-      } else if (chosen === "B") {
-        preview = `<div class="timetable">
-                     <div class="block lecture"></div>
-                     <div class="block lecture"></div>
-                     <div class="block lab"></div>
-                   </div>`;
-      } else {
-        preview = `<div class="timetable">
-                     <div class="block tutorial"></div>
-                     <div class="block lab"></div>
-                     <div class="block lecture"></div>
-                   </div>`;
-      }
-      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-      document.getElementById('confirmation').classList.add('active');
-      updateProgress(4);
-      document.getElementById('chosenText').innerHTML = `You selected <strong>Option ${chosen}</strong>.`;
-      document.getElementById('preview').innerHTML = preview;
-    });
-  });
-</script>
-
-</body>
-</html>
+    btn.addEvent
