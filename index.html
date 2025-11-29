@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -26,9 +26,21 @@
 
     .welcome { background: var(--card); padding: 18px 20px; text-align: center; font-size: 18px; color: var(--text); box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
 
+    .summary-bar {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 20px;
+      background: #fff;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .summary-item strong { color: var(--carleton-red); }
+
     .progress { display: flex; justify-content: space-between; align-items: center; margin: 26px 20px; position: relative; }
     .progress::before { content: ''; position: absolute; top: 12px; left: 12px; right: 12px; height: 4px; background: var(--line); z-index: -1; border-radius: 2px; }
-    .step { text-align: center; flex: 1; position: relative; }
+    .step { text-align: center; flex: 1; }
     .circle { width: 24px; height: 24px; border-radius: 50%; background: var(--line); margin: 0 auto; line-height: 24px; color: #fff; font-size: 13px; font-weight: 700; }
     .active .circle { background: var(--carleton-red); }
     .step p { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
@@ -74,6 +86,11 @@
   First Year · First Semester · Fall Term
 </div>
 
+<div class="summary-bar">
+  <div class="summary-item">Selected courses: <strong id="selectedCount">0</strong></div>
+  <div class="summary-item">Estimated credits: <strong id="creditTotal">0.0</strong></div>
+</div>
+
 <div class="progress">
   <div class="step" id="progress1"><div class="circle">1</div><p>Courses</p></div>
   <div class="step" id="progress2"><div class="circle">2</div><p>Preferences</p></div>
@@ -87,12 +104,12 @@
   <div id="step1" class="section active">
     <h2>Step 1: Select Your Fall Term Courses</h2>
     <div class="card">
-      <label><input type="checkbox" class="course-input" data-code="MATH 1004" data-title="Calculus for Engineering Students" data-components="lecture,tutorial" checked /> MATH 1004 – Calculus for Engineering Students</label><br>
-      <label><input type="checkbox" class="course-input" data-code="MATH 1104" data-title="Linear Algebra for Engineering Students" data-components="lecture,tutorial" checked /> MATH 1104 – Linear Algebra for Engineering Students</label><br>
-      <label><input type="checkbox" class="course-input" data-code="ECOR 1031" data-title="Programming & Data Management" data-components="lecture,lab" checked /> ECOR 1031 – Programming & Data Management</label><br>
-      <label><input type="checkbox" class="course-input" data-code="ECOR 1032" data-title="Circuits & Mechatronics" data-components="lecture,lab" checked /> ECOR 1032 – Circuits & Mechatronics</label><br>
+      <label><input type="checkbox" class="course-input" data-code="MATH 1004" data-title="Calculus for Engineering Students" data-components="lecture,tutorial" data-credits="0.5" checked /> MATH 1004 – Calculus for Engineering Students</label><br>
+      <label><input type="checkbox" class="course-input" data-code="MATH 1104" data-title="Linear Algebra for Engineering Students" data-components="lecture,tutorial" data-credits="0.5" checked /> MATH 1104 – Linear Algebra for Engineering Students</label><br>
+      <label><input type="checkbox" class="course-input" data-code="ECOR 1031" data-title="Programming & Data Management" data-components="lecture,lab" data-credits="0.5" checked /> ECOR 1031 – Programming & Data Management</label><br>
+      <label><input type="checkbox" class="course-input" data-code="ECOR 1032" data-title="Circuits & Mechatronics" data-components="lecture,lab" data-credits="0.5" checked /> ECOR 1032 – Circuits & Mechatronics</label><br>
       <label>
-        <input type="checkbox" id="electiveToggle" class="course-input" data-code="Basic Science Elective" data-title="Basic Science Elective" data-components="lecture,lab" />
+        <input type="checkbox" id="electiveToggle" class="course-input" data-code="Basic Science Elective" data-title="Basic Science Elective" data-components="lecture,lab" data-credits="0.5" />
         Basic Science Elective
         <select id="electiveSelect" disabled>
           <option value="">Select elective</option>
@@ -101,5 +118,4 @@
           <option value="ERTH 1006 — Exploring Planet Earth">ERTH 1006 — Exploring Planet Earth</option>
         </select>
       </label><br>
-      <label><input type="checkbox" class="course-input" data-code="ECOR 1055" data-title="Intro to Engineering Disciplines I" data-components="lecture" checked /> ECOR 1055 – Intro to Engineering Disciplines I (0.0 credit)</label><br>
-      <label><input type="checkbox" class="course-input" data-code="ECOR 1057" data-title="Engineering Profession
+      <label
