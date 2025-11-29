@@ -1,77 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>SmartSched – Carleton University Demo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root {
-      --carleton-red: #8B0000;
-      --carleton-red-dark: #600000;
-      --bg: #f5f7fa;
-      --card: #ffffff;
-      --text: #333333;
-      --border: #dddddd;
-      --muted: #777777;
-      --line: #cccccc;
-      --lecture: #4CAF50;
-      --tutorial: #2196F3;
-      --lab: #FF9800;
-    }
-
-    body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background: var(--bg); color: var(--text); }
-    header { background: var(--carleton-red); color: #fff; padding: 20px; text-align: center; }
-    header h1 { margin: 0; font-size: 28px; }
-    header p { margin: 6px 0 0; font-size: 16px; }
-
-    .welcome { background: var(--card); padding: 18px 20px; text-align: center; font-size: 18px; color: var(--text); box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
-
-    .summary-bar {
-      display: flex;
-      justify-content: space-between;
-      padding: 12px 20px;
-      background: #fff;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      font-size: 14px;
-      color: var(--muted);
-    }
-    .summary-item strong { color: var(--carleton-red); }
-
-    .progress { display: flex; justify-content: space-between; align-items: center; margin: 26px 20px; position: relative; }
-    .progress::before { content: ''; position: absolute; top: 12px; left: 12px; right: 12px; height: 4px; background: var(--line); z-index: -1; border-radius: 2px; }
-    .step { text-align: center; flex: 1; }
-    .circle { width: 24px; height: 24px; border-radius: 50%; background: var(--line); margin: 0 auto; line-height: 24px; color: #fff; font-size: 13px; font-weight: 700; }
-    .active .circle { background: var(--carleton-red); }
-    .step p { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
-    .active p { color: var(--carleton-red); font-weight: 600; }
-
-    .container { padding: 30px; max-width: 980px; margin: auto; }
-    .section { display: none; }
-    .section.active { display: block; }
-
-    .card { background: var(--card); border: 1px solid var(--border); padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); }
-    .btn { background: var(--carleton-red); color: #fff; padding: 10px 18px; border: none; border-radius: 6px; cursor: pointer; margin-top: 12px; font-weight: 600; }
-    .btn:hover { background: var(--carleton-red-dark); }
-
-    .note { font-size: 13px; color: var(--muted); margin-top: 10px; }
-    .legend { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-top: 6px; font-size: 13px; color: var(--muted); }
-    .legend-item { display: inline-flex; align-items: center; gap: 8px; }
-    .legend-swatch { width: 16px; height: 16px; border-radius: 4px; display: inline-block; }
-
-    .timetables { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    @media (max-width: 900px) { .timetables { grid-template-columns: 1fr; } }
-
-    .timetable { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 10px; }
-    .block { height: 42px; border-radius: 6px; position: relative; }
-    .block span { position: absolute; bottom: 6px; left: 8px; font-size: 11px; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
-    .lecture { background: var(--lecture); }
-    .tutorial { background: var(--tutorial); }
-    .lab { background: var(--lab); }
-
-    .divider { border-top: 2px solid var(--line); margin: 26px 0; }
-    .breakdown-list { margin-top: 10px; font-size: 14px; }
-    .breakdown-item { padding: 10px; border: 1px dashed var(--border); border-radius: 8px; background: #fff; margin-bottom: 8px; }
+    body { font-family: Arial, sans-serif; margin:0; background:#f5f7fa; }
+    header { background:#8B0000; color:#fff; padding:20px; text-align:center; }
+    .welcome { background:#fff; padding:15px; text-align:center; font-size:18px; }
+    .summary-bar { display:flex; justify-content:space-between; background:#fff; padding:10px 20px; border-top:1px solid #ddd; border-bottom:1px solid #ddd; }
+    .summary-bar strong { color:#8B0000; }
+    .progress { display:flex; justify-content:space-between; margin:20px; position:relative; }
+    .progress::before { content:''; position:absolute; top:12px; left:12px; right:12px; height:4px; background:#ccc; z-index:-1; }
+    .step { text-align:center; flex:1; }
+    .circle { width:24px; height:24px; border-radius:50%; background:#ccc; margin:0 auto; line-height:24px; color:#fff; }
+    .active .circle { background:#8B0000; }
+    .container { max-width:900px; margin:auto; padding:20px; }
+    .section { display:none; }
+    .section.active { display:block; }
+    .card { background:#fff; padding:20px; border:1px solid #ddd; border-radius:8px; margin-bottom:20px; }
+    .btn { background:#8B0000; color:#fff; padding:10px 20px; border:none; border-radius:4px; cursor:pointer; }
+    .btn:hover { background:#600000; }
+    .note { font-size:13px; color:#555; margin-top:10px; }
+    .legend { display:flex; gap:15px; font-size:13px; margin-top:10px; }
+    .legend-swatch { width:16px; height:16px; border-radius:4px; display:inline-block; }
+    .lecture { background:#4CAF50; }
+    .tutorial { background:#2196F3; }
+    .lab { background:#FF9800; }
+    .timetable { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin-top:10px; }
+    .block { height:40px; border-radius:4px; color:#fff; font-size:11px; padding:4px; }
+    .breakdown-item { padding:8px; border:1px dashed #ccc; border-radius:6px; margin:4px 0; background:#fff; }
   </style>
 </head>
 <body>
@@ -82,13 +39,13 @@
 </header>
 
 <div class="welcome">
-  👋 Welcome Sam (Mechanical Engineering student)<br />
+  👋 Welcome Sam (Mechanical Engineering student)<br>
   First Year · First Semester · Fall Term
 </div>
 
 <div class="summary-bar">
-  <div class="summary-item">Selected courses: <strong id="selectedCount">0</strong></div>
-  <div class="summary-item">Estimated credits: <strong id="creditTotal">0.0</strong></div>
+  <div>Selected courses: <strong id="selectedCount">0</strong></div>
+  <div>Estimated credits: <strong id="creditTotal">0.0</strong></div>
 </div>
 
 <div class="progress">
@@ -104,111 +61,83 @@
   <div id="step1" class="section active">
     <h2>Step 1: Select Your Fall Term Courses</h2>
     <div class="card">
-      <label><input type="checkbox" class="course-input" data-code="MATH 1004" data-title="Calculus for Engineering Students" data-components="lecture,tutorial" data-credits="0.5" checked /> MATH 1004 – Calculus for Engineering Students</label><br>
-      <label><input type="checkbox" class="course-input" data-code="MATH 1104" data-title="Linear Algebra for Engineering Students" data-components="lecture,tutorial" data-credits="0.5" checked /> MATH 1104 – Linear Algebra for Engineering Students</label><br>
-      <label><input type="checkbox" class="course-input" data-code="ECOR 1031" data-title="Programming & Data Management" data-components="lecture,lab" data-credits="0.5" checked /> ECOR 1031 – Programming & Data Management</label><br>
-      <label><input type="checkbox" class="course-input" data-code="ECOR 1032" data-title="Circuits & Mechatronics" data-components="lecture,lab" data-credits="0.5" checked /> ECOR 1032 – Circuits & Mechatronics</label><br>
+      <label><input type="checkbox" class="course-input" data-code="MATH 1004" data-title="Calculus for Engineering Students" data-components="lecture,tutorial" data-credits="0.5"> MATH 1004 – Calculus for Engineering Students</label><br>
+      <label><input type="checkbox" class="course-input" data-code="MATH 1104" data-title="Linear Algebra for Engineering Students" data-components="lecture,tutorial" data-credits="0.5"> MATH 1104 – Linear Algebra for Engineering Students</label><br>
+      <label><input type="checkbox" class="course-input" data-code="ECOR 1031" data-title="Programming & Data Management" data-components="lecture,lab" data-credits="0.5"> ECOR 1031 – Programming & Data Management</label><br>
+      <label><input type="checkbox" class="course-input" data-code="ECOR 1032" data-title="Circuits & Mechatronics" data-components="lecture,lab" data-credits="0.5"> ECOR 1032 – Circuits & Mechatronics</label><br>
       <label>
-        <input type="checkbox" id="electiveToggle" class="course-input" data-code="Basic Science Elective" data-title="Basic Science Elective" data-components="lecture,lab" data-credits="0.5" />
+        <input type="checkbox" id="electiveToggle" class="course-input" data-code="Basic Science Elective" data-title="Basic Science Elective" data-components="lecture,lab" data-credits="0.5">
         Basic Science Elective
         <select id="electiveSelect" disabled>
           <option value="">Select elective</option>
           <option value="CHEM 1101 — Chemistry I">CHEM 1101 — Chemistry I</option>
-          <option value="BIOL 1103
-                      <option value="BIOL 1103 — Foundations of Biology I">BIOL 1103 — Foundations of Biology I</option>
-          <option value="ERTH 1006 — Exploring Planet Earth">ERTH 1006 — Exploring Planet Earth</option>
+          <option value="BIOL 1103 — Biology I">BIOL 1103 — Biology I</option>
+          <option value="ERTH 1006 — Earth Science">ERTH 1006 — Earth Science</option>
         </select>
       </label><br>
-      <label><input type="checkbox" class="course-input" data-code="ECOR 1055" data-title="Intro to Engineering Disciplines I" data-components="lecture" data-credits="0.0" checked /> ECOR 1055 – Intro to Engineering Disciplines I (0.0 credit)</label><br>
-      <label><input type="checkbox" class="course-input" data-code="ECOR 1057" data-title="Engineering Profession" data-components="lecture" data-credits="0.0" checked /> ECOR 1057 – Engineering Profession (0.0 credit)</label>
+      <label><input type="checkbox" class="course-input" data-code="ECOR 1055" data-title="Intro to Engineering Disciplines I" data-components="lecture" data-credits="0.0"> ECOR 1055 – Intro to Engineering Disciplines I</label><br>
+      <label><input type="checkbox" class="course-input" data-code="ECOR 1057" data-title="Engineering Profession" data-components="lecture" data-credits="0.0"> ECOR 1057 – Engineering Profession</label>
 
       <div class="legend">
-        <div class="legend-item"><span class="legend-swatch" style="background: var(--lecture)"></span> Lecture</div>
-        <div class="legend-item"><span class="legend-swatch" style="background: var(--tutorial)"></span> Tutorial</div>
-        <div class="legend-item"><span class="legend-swatch" style="background: var(--lab)"></span> Lab</div>
+        <div><span class="legend-swatch lecture"></span> Lecture</div>
+        <div><span class="legend-swatch tutorial"></span> Tutorial</div>
+        <div><span class="legend-swatch lab"></span> Lab</div>
       </div>
 
-      <p class="note">
-        Note: Some courses include tutorials (e.g., MATH 1004/1104) and some include labs (e.g., ECOR 1031/1032).
-        These will be scheduled automatically in your timetable.
-      </p>
+      <p class="note">Note: Some courses include tutorials (e.g., MATH 1004/1104) and some include labs (e.g., ECOR 1031/1032). These will be scheduled automatically in your timetable.</p>
     </div>
-    <button class="btn" onclick="nextStep('step2', 2)">Next →</button>
+    <button class="btn" onclick="nextStep('step2',2)">Next →</button>
   </div>
-
-  <div class="divider"></div>
 
   <!-- Step 2 -->
   <div id="step2" class="section">
-    <h2>Step 2: Set Your Preferences</h2>
+    <h2>Step 2: Preferences</h2>
     <div class="card">
-      <label><input type="checkbox" class="pref" data-key="noEarly" /> No classes before 10am</label><br>
-      <label><input type="checkbox" class="pref" data-key="minBreaks" /> Minimize breaks between sessions</label><br>
-      <label><input type="checkbox" class="pref" data-key="compact" /> Compact schedule (finish earlier)</label><br>
-      <label><input type="checkbox" class="pref" data-key="avoidBackToBackLabs" /> Avoid back-to-back labs</label>
-      <p class="note">Preferences guide how lectures, tutorials, and labs are arranged in the options below.</p>
+      <label><input type="checkbox" class="pref" data-key="noEarly"> No classes before 10am</label><br>
+      <label><input type="checkbox" class="pref" data-key="compact"> Compact schedule</label><br>
+      <label><input type="checkbox" class="pref" data-key="minBreaks"> Minimize breaks</label>
+      <p class="note">Preferences guide how lectures, tutorials, and labs are arranged in options below.</p>
     </div>
-    <button class="btn" onclick="nextStep('step3', 3)">Next →</button>
+    <button class="btn" onclick="nextStep('step3',3)">Next →</button>
   </div>
-
-  <div class="divider"></div>
 
   <!-- Step 3 -->
   <div id="step3" class="section">
-    <h2>Step 3: Optimized Timetable Options</h2>
-    <div class="timetables">
-      <div class="card">
-        <h3>Option A — Compact, early finish</h3>
-        <div id="optionA" class="timetable"></div>
-        <p class="note">Leans earlier in the day, groups tutorials after lectures where possible.</p>
-        <button class="btn selectBtn" data-option="A">Select Option A</button>
-      </div>
-      <div class="card">
-        <h3>Option B — Balanced workload</h3>
-        <div id="optionB" class="timetable"></div>
-        <p class="note">Distributes lectures/tutorials/labs across the week to reduce daily intensity.</p>
-        <button class="btn selectBtn" data-option="B">Select Option B</button>
-      </div>
-      <div class="card">
-        <h3>Option C — Late start, minimal breaks</h3>
-        <div id="optionC" class="timetable"></div>
-        <p class="note">Starts later, tries to cluster sessions to avoid long waits.</p>
-        <button class="btn selectBtn" data-option="C">Select Option C</button>
-      </div>
+    <h2>Step 3: Timetable Options</h2>
+    <div class="card">
+      <h3>Option A — Compact</h3>
+      <div id="optionA" class="timetable"></div>
+      <button class="btn selectBtn" data-option="A">Select Option A</button>
+    </div>
+    <div class="card">
+      <h3>Option B — Balanced</h3>
+      <div id="optionB" class="timetable"></div>
+      <button class="btn selectBtn" data-option="B">Select Option B</button>
+    </div>
+    <div class="card">
+      <h3>Option C — Late start</h3>
+      <div id="optionC" class="timetable"></div>
+      <button class="btn selectBtn" data-option="C">Select Option C</button>
     </div>
   </div>
 
-  <!-- Step 4: Confirmation -->
+  <!-- Step 4 -->
   <div id="confirmation" class="section">
-    <h2>SmartSched — Schedule Confirmed</h2>
-    <div class="card">
-      <p id="chosenText"></p>
-      <div id="preview" class="timetable"></div>
-      <div class="breakdown-list" id="breakdown"></div>
-      <div style="margin-top:16px;">
-        <button class="btn" onclick="alert('📅 Added to calendar (mock)!')">Add to calendar</button>
-        <button class="btn" onclick="alert('📄 PDF downloaded (mock)!')">Download PDF</button>
-        <button class="btn" onclick="alert('📧 Shared with advisor (mock)!')">Share with advisor</button>
-      </div>
-      <p class="note">Exports are mock actions for demo purposes.</p>
-    </div>
+    <h2>Schedule Confirmed</h2>
+    <p id="chosenText"></p>
+    <div id="preview" class="timetable"></div>
+    <div id="breakdown"></div>
     <button class="btn" onclick="restart()">Back to Start</button>
   </div>
 
 </div>
 
 <script>
-  // Elective dropdown toggle
+  // Elements
   const electiveToggle = document.getElementById('electiveToggle');
   const electiveSelect = document.getElementById('electiveSelect');
 
-  electiveToggle.addEventListener('change', () => {
-    electiveSelect.disabled = !electiveToggle.checked;
-    updateSummary();
-  });
-  electiveSelect.addEventListener('change', updateSummary);
-
-  // Summary bar update
+  // Summary bar: count + credits
   function updateSummary() {
     const inputs = document.querySelectorAll('.course-input');
     let count = 0;
@@ -216,12 +145,25 @@
     inputs.forEach(input => {
       if (input.checked) {
         count++;
-        credits += parseFloat(input.dataset.credits || '0');
+        const c = parseFloat(input.dataset.credits || '0');
+        credits += isNaN(c) ? 0 : c;
       }
     });
     document.getElementById('selectedCount').textContent = count;
     document.getElementById('creditTotal').textContent = credits.toFixed(1);
   }
+
+  // Toggle elective dropdown
+  electiveToggle.addEventListener('change', () => {
+    electiveSelect.disabled = !electiveToggle.checked;
+    if (!electiveToggle.checked) electiveSelect.value = '';
+    updateSummary();
+  });
+  electiveSelect.addEventListener('change', () => {
+    // No-op for credits (same 0.5 either way), but you could reflect chosen elective name elsewhere
+  });
+
+  // Update summary when any course checkbox changes
   document.querySelectorAll('.course-input').forEach(el => el.addEventListener('change', updateSummary));
   updateSummary();
 
@@ -234,57 +176,77 @@
   }
   function updateProgress(step) {
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-    document.getElementById('progress' + step).classList.add('active');
+    const el = document.getElementById('progress' + step);
+    if (el) el.classList.add('active');
   }
   function restart() {
+    // Show step 1 and reset progress
     nextStep('step1', 1);
+    // Reset elective
     electiveToggle.checked = false;
     electiveSelect.disabled = true;
-    electiveSelect.value = "";
+    electiveSelect.value = '';
+    // Uncheck all courses
+    document.querySelectorAll('.course-input').forEach(el => { el.checked = false; });
+    // Clear preferences
+    document.querySelectorAll('.pref').forEach(el => { el.checked = false; });
+    // Clear option grids & confirmation
+    ['optionA','optionB','optionC','preview','breakdown'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = '';
+    });
+    document.getElementById('chosenText').textContent = '';
     updateSummary();
   }
 
-  // Build timetable options
+  // Data helpers
   function getSelectedCourses() {
     const inputs = document.querySelectorAll('.course-input');
     const courses = [];
     inputs.forEach(input => {
       if (input.checked) {
         const code = input.dataset.code;
-        const title = input.dataset.title;
-        const comps = input.dataset.components.split(',');
-        courses.push({ code, title, components: comps });
+        let title = input.dataset.title;
+        // If elective is selected, reflect chosen name in title
+        if (code === 'Basic Science Elective' && electiveSelect.value) {
+          title = electiveSelect.value;
+        }
+        const components = (input.dataset.components || '').split(',').filter(Boolean);
+        courses.push({ code, title, components });
       }
     });
     return courses;
   }
-  function blocksForCourse(course, dayOffset = 0) {
-    const blocks = [];
-    course.components.forEach((comp, idx) => {
-      const labelShort = comp === 'lecture' ? 'Lec' : comp === 'tutorial' ? 'Tut' : 'Lab';
-      blocks.push({
+
+  // Simple layout: map components to columns Mon–Fri
+  function toBlocks(course, offset=0) {
+    return course.components.map((comp, idx) => {
+      const short = comp === 'lecture' ? 'Lec' : comp === 'tutorial' ? 'Tut' : 'Lab';
+      return {
         type: comp,
-        title: `${course.code} ${labelShort}`,
-        col: (idx + dayOffset) % 5
-      });
+        label: `${course.code} ${short}`,
+        col: (idx + offset) % 5 // distribute across days
+      };
     });
-    return blocks;
   }
+
   function renderTimetable(containerId, courses) {
     const container = document.getElementById(containerId);
     container.innerHTML = '';
-    let allBlocks = [];
-    courses.forEach((c, ci) => {
-      allBlocks = allBlocks.concat(blocksForCourse(c, ci));
-    });
-    allBlocks.forEach(b => {
+    let blocks = [];
+    courses.forEach((c, i) => { blocks = blocks.concat(toBlocks(c, i)); });
+    blocks.forEach(b => {
       const div = document.createElement('div');
       div.className = `block ${b.type}`;
       div.style.gridColumn = (b.col + 1);
-      div.innerHTML = `<span>${b.title}</span>`;
+      div.textContent = b.label;
       container.appendChild(div);
     });
+    if (blocks.length === 0) {
+      container.innerHTML = '<p class="note">No courses selected yet.</p>';
+    }
   }
+
   function buildOptions() {
     const courses = getSelectedCourses();
     renderTimetable('optionA', courses);
@@ -292,36 +254,37 @@
     renderTimetable('optionC', courses);
   }
 
-  // Confirmation
+  // Option selection → confirmation
   document.querySelectorAll('.selectBtn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const chosen = btn.dataset.option;
+      const chosen = btn.dataset.option || 'A';
       const courses = getSelectedCourses();
+      // Navigate
       document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
       document.getElementById('confirmation').classList.add('active');
       updateProgress(4);
+      // Message
       document.getElementById('chosenText').innerHTML =
-        `You selected <strong
-                `You selected <strong>Option ${chosen}</strong>. Lectures, tutorials, and labs for your courses are included.`;
-
-      // Render preview timetable
+        `You selected <strong>Option ${chosen}</strong>. Lectures, tutorials, and labs are included.`;
+      // Preview timetable
       renderTimetable('preview', courses);
-
-      // Render breakdown list
+      // Breakdown
       const breakdown = document.getElementById('breakdown');
       breakdown.innerHTML = '';
       courses.forEach(c => {
-        const compText = c.components.map(x =>
+        const text = `${c.code} — ${c.title}: ` + c.components.map(x =>
           x === 'lecture' ? 'Lecture' : x === 'tutorial' ? 'Tutorial' : 'Lab'
         ).join(' + ');
         const item = document.createElement('div');
         item.className = 'breakdown-item';
-        item.textContent = `${c.code} — ${c.title}: ${compText}`;
+        item.textContent = text;
         breakdown.appendChild(item);
       });
+      if (courses.length === 0) {
+        breakdown.innerHTML = '<p class="note">No courses selected. Go Back to Start to pick courses.</p>';
+      }
     });
   });
 </script>
 </body>
 </html>
-            
