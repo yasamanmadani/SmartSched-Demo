@@ -2,16 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SmartSched Demo</title>
+  <title>SmartSched – Carleton University Demo</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 40px; background: #f5f7fa; }
-    h1 { color: #0055A5; }
-    h2 { color: #333; }
-    .section { margin-bottom: 40px; }
-    .courses, .preferences, .timetables { display: flex; gap: 20px; }
-    .card { background: #fff; border: 1px solid #ccc; padding: 20px; border-radius: 8px; flex: 1; }
-    .btn { background: #0055A5; color: #fff; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; }
-    .btn:hover { background: #003F7D; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background: #f5f7fa; }
+    header { background: #8B0000; color: #fff; padding: 20px; text-align: center; }
+    header h1 { margin: 0; font-size: 28px; }
+    header p { margin: 5px 0 0; font-size: 16px; }
+
+    .progress { display: flex; justify-content: space-around; margin: 20px; }
+    .step { flex: 1; text-align: center; position: relative; }
+    .step::before { content: ''; position: absolute; top: 12px; left: 50%; width: 100%; height: 4px; background: #ccc; z-index: -1; }
+    .step:first-child::before { display: none; }
+    .circle { width: 24px; height: 24px; border-radius: 50%; background: #ccc; margin: 0 auto; line-height: 24px; color: #fff; }
+    .active .circle { background: #8B0000; }
+
+    .container { padding: 30px; max-width: 900px; margin: auto; }
+    .section { display: none; }
+    .active { display: block; }
+    .card { background: #fff; border: 1px solid #ddd; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .btn { background: #8B0000; color: #fff; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; }
+    .btn:hover { background: #600000; }
     .timetable { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-top: 10px; }
     .block { height: 40px; border-radius: 4px; }
     .lecture { background: #4CAF50; }
@@ -21,125 +31,145 @@
 </head>
 <body>
 
-  <h1>SmartSched – Smarter Schedules, Stronger Success</h1>
+<header>
+  <h1>SmartSched – Carleton University</h1>
+  <p>Smarter schedules, stronger success</p>
+</header>
 
-  <!-- Step 1: Course Selection -->
-  <div class="section">
+<div class="progress">
+  <div class="step" id="progress1"><div class="circle">1</div><p>Courses</p></div>
+  <div class="step" id="progress2"><div class="circle">2</div><p>Preferences</p></div>
+  <div class="step" id="progress3"><div class="circle">3</div><p>Options</p></div>
+  <div class="step" id="progress4"><div class="circle">4</div><p>Confirm</p></div>
+</div>
+
+<div class="container">
+
+  <!-- Step 1 -->
+  <div id="step1" class="section active">
     <h2>Step 1: Select Courses</h2>
-    <div class="courses">
-      <div class="card">
-        <label>Calculus I <input type="checkbox"></label><br>
-        <label>Electronics I <input type="checkbox"></label><br>
-        <label>Physics I <input type="checkbox"></label>
-      </div>
-      <div class="card">
-        <p>Your Course Tree</p>
-        <ul>
-          <li>Term 1: Calculus I</li>
-          <li>Term 1: Physics I</li>
-          <li>Term 1: Electronics I</li>
-        </ul>
-      </div>
+    <div class="card">
+      <label><input type="checkbox"> Calculus I</label><br>
+      <label><input type="checkbox"> Electronics I</label><br>
+      <label><input type="checkbox"> Physics I</label>
     </div>
+    <button class="btn" onclick="nextStep(2)">Next →</button>
   </div>
 
-  <!-- Step 2: Preferences -->
-  <div class="section">
+  <!-- Step 2 -->
+  <div id="step2" class="section">
     <h2>Step 2: Set Preferences</h2>
-    <div class="preferences">
-      <div class="card">
-        <label><input type="checkbox"> No classes before 10am</label><br>
-        <label><input type="checkbox"> Minimize breaks</label><br>
-        <label><input type="checkbox"> Compact schedule</label><br>
-        <label><input type="checkbox"> Avoid back-to-back labs</label>
-      </div>
+    <div class="card">
+      <label><input type="checkbox"> No classes before 10am</label><br>
+      <label><input type="checkbox"> Minimize breaks</label><br>
+      <label><input type="checkbox"> Compact schedule</label><br>
+      <label><input type="checkbox"> Avoid back-to-back labs</label>
     </div>
+    <button class="btn" onclick="nextStep(3)">Next →</button>
   </div>
 
-  <!-- Step 3: Timetable Options -->
-  <div class="section">
+  <!-- Step 3 -->
+  <div id="step3" class="section">
     <h2>Step 3: Optimized Timetable Options</h2>
-    <div class="timetables">
-      <div class="card">
-        <h3>Option A</h3>
-        <div class="timetable">
-          <div class="block lecture"></div>
-          <div class="block lab"></div>
-          <div class="block tutorial"></div>
-        </div>
-        <p>Compact, early finish</p>
-        <button class="btn selectBtn" data-option="A">Select Option A</button>
+    <div class="card">
+      <h3>Option A</h3>
+      <div class="timetable">
+        <div class="block lecture"></div>
+        <div class="block lab"></div>
+        <div class="block tutorial"></div>
       </div>
-      <div class="card">
-        <h3>Option B</h3>
-        <div class="timetable">
-          <div class="block lecture"></div>
-          <div class="block lecture"></div>
-          <div class="block lab"></div>
-        </div>
-        <p>Balanced workload</p>
-        <button class="btn selectBtn" data-option="B">Select Option B</button>
+      <p>Compact, early finish</p>
+      <button class="btn selectBtn" data-option="A">Select Option A</button>
+    </div>
+    <div class="card">
+      <h3>Option B</h3>
+      <div class="timetable">
+        <div class="block lecture"></div>
+        <div class="block lecture"></div>
+        <div class="block lab"></div>
       </div>
-      <div class="card">
-        <h3>Option C</h3>
-        <div class="timetable">
-          <div class="block tutorial"></div>
-          <div class="block lab"></div>
-          <div class="block lecture"></div>
-        </div>
-        <p>Late start, minimal breaks</p>
-        <button class="btn selectBtn" data-option="C">Select Option C</button>
+      <p>Balanced workload</p>
+      <button class="btn selectBtn" data-option="B">Select Option B</button>
+    </div>
+    <div class="card">
+      <h3>Option C</h3>
+      <div class="timetable">
+        <div class="block tutorial"></div>
+        <div class="block lab"></div>
+        <div class="block lecture"></div>
       </div>
+      <p>Late start, minimal breaks</p>
+      <button class="btn selectBtn" data-option="C">Select Option C</button>
     </div>
   </div>
 
-  <script>
-    const buttons = document.querySelectorAll('.selectBtn');
+  <!-- Confirmation -->
+  <div id="confirmation" class="section">
+    <h2>SmartSched – Schedule Confirmed</h2>
+    <p id="chosenText"></p>
+    <div id="preview"></div>
+    <div style="margin-top:20px;">
+      <button class="btn" onclick="alert('📅 Added to calendar (mock)!')">Add to Calendar</button>
+      <button class="btn" onclick="alert('📄 PDF downloaded (mock)!')">Download PDF</button>
+      <button class="btn" onclick="alert('📧 Shared with advisor (mock)!')">Share with Advisor</button>
+    </div>
+    <div style="margin-top:20px;">
+      <button class="btn" onclick="restart()">Back to Start</button>
+    </div>
+  </div>
 
-    buttons.forEach(btn => {
-      btn.addEventListener('click', function() {
-        const chosen = this.dataset.option;
+</div>
 
-        // Build timetable preview depending on choice
-        let preview = "";
-        if (chosen === "A") {
-          preview = `<div class="timetable">
-                       <div class="block lecture"></div>
-                       <div class="block lab"></div>
-                       <div class="block tutorial"></div>
-                     </div>`;
-        } else if (chosen === "B") {
-          preview = `<div class="timetable">
-                       <div class="block lecture"></div>
-                       <div class="block lecture"></div>
-                       <div class="block lab"></div>
-                     </div>`;
-        } else {
-          preview = `<div class="timetable">
-                       <div class="block tutorial"></div>
-                       <div class="block lab"></div>
-                       <div class="block lecture"></div>
-                     </div>`;
-        }
+<script>
+  function updateProgress(step) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById('progress' + step).classList.add('active');
+  }
 
-        // Replace page content with confirmation + preview + export options
-        document.body.innerHTML = `
-          <h1>SmartSched – Schedule Confirmed</h1>
-          <p>You selected <strong>Option ${chosen}</strong>.</p>
-          <p>Here’s your timetable preview:</p>
-          ${preview}
-          <div style="margin-top:20px;">
-            <button class="btn" onclick="alert('📅 Added to calendar (mock)!')">Add to Calendar</button>
-            <button class="btn" onclick="alert('📄 PDF downloaded (mock)!')">Download PDF</button>
-            <button class="btn" onclick="alert('📧 Shared with advisor (mock)!')">Share with Advisor</button>
-          </div>
-          <div style="margin-top:20px;">
-            <button class="btn" onclick="window.location.reload()">Back to Start</button>
-          </div>
-        `;
-      });
+  function nextStep(step) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById('step' + step).classList.add('active');
+    updateProgress(step);
+  }
+
+  function restart() {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById('step1').classList.add('active');
+    updateProgress(1);
+  }
+
+  const buttons = document.querySelectorAll('.selectBtn');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const chosen = this.dataset.option;
+      let preview = "";
+      if (chosen === "A") {
+        preview = `<div class="timetable">
+                     <div class="block lecture"></div>
+                     <div class="block lab"></div>
+                     <div class="block tutorial"></div>
+                   </div>`;
+      } else if (chosen === "B") {
+        preview = `<div class="timetable">
+                     <div class="block lecture"></div>
+                     <div class="block lecture"></div>
+                     <div class="block lab"></div>
+                   </div>`;
+      } else {
+        preview = `<div class="timetable">
+                     <div class="block tutorial"></div>
+                     <div class="block lab"></div>
+                     <div class="block lecture"></div>
+                   </div>`;
+      }
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById('confirmation').classList.add('active');
+      updateProgress(4);
+      document.getElementById('chosenText').innerHTML = `You selected <strong>Option ${chosen}</strong>.`;
+      document.getElementById('preview').innerHTML = preview;
     });
-  </script>
+  });
+</script>
 
 </body>
 </html>
