@@ -61,12 +61,12 @@
   <div id="step1" class="section active">
     <h2>Step 1: Select Your Fall Term Courses</h2>
     <div class="card">
-      <label><input type="checkbox" class="course-input" data-code="MATH 1004" data-title="Calculus for Engineering Students" data-components="lecture,tutorial" data-credits="0.5"> MATH 1004 – Calculus for Engineering Students</label><br>
-      <label><input type="checkbox" class="course-input" data-code="MATH 1104" data-title="Linear Algebra for Engineering Students" data-components="lecture,tutorial" data-credits="0.5"> MATH 1104 – Linear Algebra for Engineering Students</label><br>
-      <label><input type="checkbox" class="course-input" data-code="ECOR 1031" data-title="Programming & Data Management" data-components="lecture,lab" data-credits="0.5"> ECOR 1031 – Programming & Data Management</label><br>
-      <label><input type="checkbox" class="course-input" data-code="ECOR 1032" data-title="Circuits & Mechatronics" data-components="lecture,lab" data-credits="0.5"> ECOR 1032 – Circuits & Mechatronics</label><br>
+      <label><input type="checkbox" class="course-input" data-code="MATH 1004" data-title="Calculus" data-credits="0.5"> MATH 1004 – Calculus</label><br>
+      <label><input type="checkbox" class="course-input" data-code="MATH 1104" data-title="Linear Algebra" data-credits="0.5"> MATH 1104 – Linear Algebra</label><br>
+      <label><input type="checkbox" class="course-input" data-code="ECOR 1031" data-title="Programming" data-credits="0.5"> ECOR 1031 – Programming</label><br>
+      <label><input type="checkbox" class="course-input" data-code="ECOR 1032" data-title="Circuits" data-credits="0.5"> ECOR 1032 – Circuits</label><br>
       <label>
-        <input type="checkbox" id="electiveToggle" class="course-input" data-code="Basic Science Elective" data-title="Basic Science Elective" data-components="lecture,lab" data-credits="0.5">
+        <input type="checkbox" id="electiveToggle" class="course-input" data-code="Basic Science Elective" data-title="Basic Science Elective" data-credits="0.5">
         Basic Science Elective
         <select id="electiveSelect" disabled>
           <option value="">Select elective</option>
@@ -75,8 +75,8 @@
           <option value="ERTH 1006 — Earth Science">ERTH 1006 — Earth Science</option>
         </select>
       </label><br>
-      <label><input type="checkbox" class="course-input" data-code="ECOR 1055" data-title="Intro to Engineering Disciplines I" data-components="lecture" data-credits="0.0"> ECOR 1055 – Intro to Engineering Disciplines I</label><br>
-      <label><input type="checkbox" class="course-input" data-code="ECOR 1057" data-title="Engineering Profession" data-components="lecture" data-credits="0.0"> ECOR 1057 – Engineering Profession</label>
+      <label><input type="checkbox" class="course-input" data-code="ECOR 1055" data-title="Intro Eng Disciplines I" data-credits="0.0"> ECOR 1055 – Intro Eng Disciplines I</label><br>
+      <label><input type="checkbox" class="course-input" data-code="ECOR 1057" data-title="Engineering Profession" data-credits="0.0"> ECOR 1057 – Engineering Profession</label>
 
       <div class="legend">
         <div><span class="legend-swatch lecture"></span> Lecture</div>
@@ -84,12 +84,10 @@
         <div><span class="legend-swatch lab"></span> Lab</div>
       </div>
 
-      <p class="note">Note: Some courses include tutorials (e.g., MATH 1004/1104) and some include labs (e.g., ECOR 1031/1032). These will be scheduled automatically in your timetable.</p>
+      <p class="note">Note: Some courses include tutorials (e.g., MATH 1004/1104) and some include labs (e.g., ECOR 1031/1032). These will be scheduled automatically.</p>
     </div>
     <button class="btn" onclick="nextStep('step2',2)">Next →</button>
-  </div>
-
-  <!-- Step 2 -->
+  </div>   <!-- Step 2 -->
   <div id="step2" class="section">
     <h2>Step 2: Preferences</h2>
     <div class="card">
@@ -105,23 +103,21 @@
   <div id="step3" class="section">
     <h2>Step 3: Timetable Options</h2>
     <div class="card">
-      <h3>Option A — Compact</h3>
+      <h3>Option A</h3>
       <div id="optionA" class="timetable"></div>
       <button class="btn selectBtn" data-option="A">Select Option A</button>
     </div>
     <div class="card">
-      <h3>Option B — Balanced</h3>
+      <h3>Option B</h3>
       <div id="optionB" class="timetable"></div>
       <button class="btn selectBtn" data-option="B">Select Option B</button>
     </div>
     <div class="card">
-      <h3>Option C — Late start</h3>
+      <h3>Option C</h3>
       <div id="optionC" class="timetable"></div>
       <button class="btn selectBtn" data-option="C">Select Option C</button>
     </div>
-  </div>
-
-  <!-- Step 4 -->
+  </div>   <!-- Step 4 -->
   <div id="confirmation" class="section">
     <h2>Schedule Confirmed</h2>
     <p id="chosenText"></p>
@@ -130,40 +126,75 @@
     <button class="btn" onclick="restart()">Back to Start</button>
   </div>
 
-</div>
+</div> <!-- end .container -->
 
 <script>
-  // Elements
-  const electiveToggle = document.getElementById('electiveToggle');
-  const electiveSelect = document.getElementById('electiveSelect');
+  // Section data for realistic variation
+  const courseSections = {
+    "MATH 1004": {
+      lectures: [
+        { label: "MATH 1004 Lec A", day: 0 },
+        { label: "MATH 1004 Lec B", day: 2 },
+        { label: "MATH 1004 Lec C", day: 4 }
+      ],
+      tutorials: [
+        { label: "MATH 1004 Tut A", day: 1 },
+        { label: "MATH 1004 Tut B", day: 3 }
+      ]
+    },
+    "MATH 1104": {
+      lectures: [
+        { label: "MATH 1104 Lec A", day: 1 },
+        { label: "MATH 1104 Lec B", day: 3 }
+      ],
+      tutorials: [
+        { label: "MATH 1104 Tut A", day: 4 }
+      ]
+    },
+    "ECOR 1031": {
+      lectures: [
+        { label: "ECOR 1031 Lec A", day: 0 },
+        { label: "ECOR 1031 Lec B", day: 2 }
+      ],
+      labs: [
+        { label: "ECOR 1031 Lab A", day: 1 },
+        { label: "ECOR 1031 Lab B", day: 3 }
+      ]
+    },
+    "ECOR 1032": {
+      lectures: [
+        { label: "ECOR 1032 Lec A", day: 1 },
+        { label: "ECOR 1032 Lec B", day: 3 }
+      ],
+      labs: [
+        { label: "ECOR 1032 Lab A", day: 2 },
+        { label: "ECOR 1032 Lab B", day: 4 }
+      ]
+    }
+  };
 
-  // Summary bar: count + credits
+  // Summary bar
   function updateSummary() {
     const inputs = document.querySelectorAll('.course-input');
-    let count = 0;
-    let credits = 0;
+    let count = 0, credits = 0;
     inputs.forEach(input => {
       if (input.checked) {
         count++;
-        const c = parseFloat(input.dataset.credits || '0');
-        credits += isNaN(c) ? 0 : c;
+        credits += parseFloat(input.dataset.credits || '0');
       }
     });
     document.getElementById('selectedCount').textContent = count;
     document.getElementById('creditTotal').textContent = credits.toFixed(1);
   }
 
-  // Toggle elective dropdown
+  // Elective dropdown toggle
+  const electiveToggle = document.getElementById('electiveToggle');
+  const electiveSelect = document.getElementById('electiveSelect');
   electiveToggle.addEventListener('change', () => {
     electiveSelect.disabled = !electiveToggle.checked;
     if (!electiveToggle.checked) electiveSelect.value = '';
     updateSummary();
   });
-  electiveSelect.addEventListener('change', () => {
-    // No-op for credits (same 0.5 either way), but you could reflect chosen elective name elsewhere
-  });
-
-  // Update summary when any course checkbox changes
   document.querySelectorAll('.course-input').forEach(el => el.addEventListener('change', updateSummary));
   updateSummary();
 
@@ -176,30 +207,21 @@
   }
   function updateProgress(step) {
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-    const el = document.getElementById('progress' + step);
-    if (el) el.classList.add('active');
+    document.getElementById('progress' + step).classList.add('active');
   }
   function restart() {
-    // Show step 1 and reset progress
-    nextStep('step1', 1);
-    // Reset elective
+    nextStep('step1',1);
     electiveToggle.checked = false;
     electiveSelect.disabled = true;
     electiveSelect.value = '';
-    // Uncheck all courses
-    document.querySelectorAll('.course-input').forEach(el => { el.checked = false; });
-    // Clear preferences
-    document.querySelectorAll('.pref').forEach(el => { el.checked = false; });
-    // Clear option grids & confirmation
-    ['optionA','optionB','optionC','preview','breakdown'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.innerHTML = '';
-    });
+    document.querySelectorAll('.course-input').forEach(el => el.checked = false);
+    document.querySelectorAll('.pref').forEach(el => el.checked = false);
+    ['optionA','optionB','optionC','preview','breakdown'].forEach(id => document.getElementById(id).innerHTML = '');
     document.getElementById('chosenText').textContent = '';
     updateSummary();
   }
 
-  // Data helpers
+  // Helpers
   function getSelectedCourses() {
     const inputs = document.querySelectorAll('.course-input');
     const courses = [];
@@ -207,84 +229,79 @@
       if (input.checked) {
         const code = input.dataset.code;
         let title = input.dataset.title;
-        // If elective is selected, reflect chosen name in title
         if (code === 'Basic Science Elective' && electiveSelect.value) {
           title = electiveSelect.value;
         }
-        const components = (input.dataset.components || '').split(',').filter(Boolean);
-        courses.push({ code, title, components });
+        courses.push({ code, title });
       }
     });
     return courses;
   }
 
-  // Simple layout: map components to columns Mon–Fri
-  function toBlocks(course, offset=0) {
-    return course.components.map((comp, idx) => {
-      const short = comp === 'lecture' ? 'Lec' : comp === 'tutorial' ? 'Tut' : 'Lab';
-      return {
-        type: comp,
-        label: `${course.code} ${short}`,
-        col: (idx + offset) % 5 // distribute across days
-      };
-    });
+  function pickSections(course, variant) {
+    const sections = courseSections[course.code];
+    const chosen = [];
+    if (sections) {
+      if (sections.lectures) {
+        const lec = sections.lectures[variant % sections.lectures.length];
+        chosen.push({ type:'lecture', label:lec.label, col:lec.day });
+      }
+      if (sections.tutorials) {
+        const tut = sections.tutorials[variant % sections.tutorials.length];
+        chosen.push({ type:'tutorial', label:tut.label, col:tut.day });
+      }
+      if (sections.labs) {
+        const lab = sections.labs[variant % sections.labs.length];
+        chosen.push({ type:'lab', label:lab.label, col:lab.day });
+      }
+    }
+    return chosen;
   }
 
-  function renderTimetable(containerId, courses) {
+  function renderTimetable(containerId, courses, variant) {
     const container = document.getElementById(containerId);
     container.innerHTML = '';
     let blocks = [];
-    courses.forEach((c, i) => { blocks = blocks.concat(toBlocks(c, i)); });
+    courses.forEach(c => { blocks = blocks.concat(pickSections(c, variant)); });
     blocks.forEach(b => {
       const div = document.createElement('div');
       div.className = `block ${b.type}`;
-      div.style.gridColumn = (b.col + 1);
+      div.style.gridColumn = (b.col+1);
       div.textContent = b.label;
       container.appendChild(div);
     });
-    if (blocks.length === 0) {
-      container.innerHTML = '<p class="note">No courses selected yet.</p>';
-    }
+    if (blocks.length===0) container.innerHTML = '<p class="note">No courses selected yet.</p>';
   }
 
   function buildOptions() {
     const courses = getSelectedCourses();
-    renderTimetable('optionA', courses);
-    renderTimetable('optionB', courses);
-    renderTimetable('optionC', courses);
+    renderTimetable('optionA', courses, 0);
+    renderTimetable('optionB', courses, 1);
+    renderTimetable('optionC', courses, 2);
   }
 
-  // Option selection → confirmation
-  document.querySelectorAll('.selectBtn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const chosen = btn.dataset.option || 'A';
+  // Confirmation
+  document.querySelectorAll('.selectBtn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const chosen = btn.dataset.option;
       const courses = getSelectedCourses();
-      // Navigate
-      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
       document.getElementById('confirmation').classList.add('active');
       updateProgress(4);
-      // Message
-      document.getElementById('chosenText').innerHTML =
-        `You selected <strong>Option ${chosen}</strong>. Lectures, tutorials, and labs are included.`;
-      // Preview timetable
-      renderTimetable('preview', courses);
-      // Breakdown
+      document.getElementById('chosenText').innerHTML = `You selected <strong>Option ${chosen}</strong>.`;
+      renderTimetable('preview', courses, chosen==='A'?0:chosen==='B'?1:2);
       const breakdown = document.getElementById('breakdown');
-      breakdown.innerHTML = '';
-      courses.forEach(c => {
-        const text = `${c.code} — ${c.title}: ` + c.components.map(x =>
-          x === 'lecture' ? 'Lecture' : x === 'tutorial' ? 'Tutorial' : 'Lab'
-        ).join(' + ');
-        const item = document.createElement('div');
-        item.className = 'breakdown-item';
-        item.textContent = text;
-        breakdown.appendChild(item);
+      breakdown.innerHTML='';
+      courses.forEach(c=>{
+        const comps = pickSections(c, chosen==='A'?0:chosen==='B'?1:2).map(x=>x.type).join(' + ');
+        const div=document.createElement('div');
+        div.className='breakdown-item';
+        div.textContent=`${c.code} — ${c.title}: ${comps}`;
+        breakdown.appendChild(div);
       });
-      if (courses.length === 0) {
-        breakdown.innerHTML = '<p class="note">No courses selected. Go Back to Start to pick courses.</p>';
-      }
     });
   });
 </script>
 </body>
 </html>
+
