@@ -1,94 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>SmartSched Demo</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 40px; background: #f5f7fa; }
-    h1 { color: #0055A5; }
-    .section { margin-bottom: 40px; }
-    .courses, .preferences, .timetables { display: flex; gap: 20px; }
-    .card { background: #fff; border: 1px solid #ccc; padding: 20px; border-radius: 8px; flex: 1; }
-    .btn { background: #0055A5; color: #fff; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
-    .btn:hover { background: #003F7D; }
-    .timetable { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
-    .block { height: 40px; border-radius: 4px; }
-    .lecture { background: #4CAF50; }
-    .lab { background: #FF9800; }
-    .tutorial { background: #2196F3; }
-  </style>
-</head>
-<body>
-
-  <h1>SmartSched – Smarter Schedules, Stronger Success</h1>
-
-  <div class="section">
-    <h2>Step 1: Select Courses</h2>
-    <div class="courses">
-      <div class="card">
-        <label>Calculus I <input type="checkbox"></label><br>
-        <label>Electronics I <input type="checkbox"></label><br>
-        <label>Physics I <input type="checkbox"></label>
+<div class="section">
+  <h2>Step 3: Optimized Timetable Options</h2>
+  <div class="timetables">
+    <div class="card">
+      <h3>Option A</h3>
+      <div class="timetable">
+        <div class="block lecture"></div>
+        <div class="block lab"></div>
+        <div class="block tutorial"></div>
       </div>
-      <div class="card">
-        <p>Your Course Tree</p>
-        <ul>
-          <li>Term 1: Calculus I</li>
-          <li>Term 1: Physics I</li>
-          <li>Term 1: Electronics I</li>
-        </ul>
+      <p>Compact, early finish</p>
+      <button class="btn selectBtn" data-option="A">Select Option A</button>
+    </div>
+    <div class="card">
+      <h3>Option B</h3>
+      <div class="timetable">
+        <div class="block lecture"></div>
+        <div class="block lecture"></div>
+        <div class="block lab"></div>
       </div>
+      <p>Balanced workload</p>
+      <button class="btn selectBtn" data-option="B">Select Option B</button>
+    </div>
+    <div class="card">
+      <h3>Option C</h3>
+      <div class="timetable">
+        <div class="block tutorial"></div>
+        <div class="block lab"></div>
+        <div class="block lecture"></div>
+      </div>
+      <p>Late start, minimal breaks</p>
+      <button class="btn selectBtn" data-option="C">Select Option C</button>
     </div>
   </div>
+</div>
 
-  <div class="section">
-    <h2>Step 2: Set Preferences</h2>
-    <div class="preferences">
-      <div class="card">
-        <label><input type="checkbox"> No classes before 10am</label><br>
-        <label><input type="checkbox"> Minimize breaks</label><br>
-        <label><input type="checkbox"> Compact schedule</label><br>
-        <label><input type="checkbox"> Avoid back-to-back labs</label>
-      </div>
-    </div>
-  </div>
+<script>
+  const buttons = document.querySelectorAll('.selectBtn');
 
-  <div class="section">
-    <h2>Step 3: Optimized Timetable Options</h2>
-    <div class="timetables">
-      <div class="card">
-        <h3>Option A</h3>
-        <div class="timetable">
-          <div class="block lecture"></div>
-          <div class="block lab"></div>
-          <div class="block tutorial"></div>
+  buttons.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const chosen = this.dataset.option;
+
+      // Create a preview timetable depending on choice
+      let preview = "";
+      if (chosen === "A") {
+        preview = `<div class="timetable">
+                     <div class="block lecture"></div>
+                     <div class="block lab"></div>
+                     <div class="block tutorial"></div>
+                   </div>`;
+      } else if (chosen === "B") {
+        preview = `<div class="timetable">
+                     <div class="block lecture"></div>
+                     <div class="block lecture"></div>
+                     <div class="block lab"></div>
+                   </div>`;
+      } else {
+        preview = `<div class="timetable">
+                     <div class="block tutorial"></div>
+                     <div class="block lab"></div>
+                     <div class="block lecture"></div>
+                   </div>`;
+      }
+
+      // Replace page content with confirmation + preview + export options
+      document.body.innerHTML = `
+        <h1>SmartSched – Schedule Confirmed</h1>
+        <p>You selected <strong>Option ${chosen}</strong>.</p>
+        <p>Here’s your timetable preview:</p>
+        ${preview}
+        <div style="margin-top:20px;">
+          <button class="btn" onclick="alert('📅 Added to calendar (mock)!')">Add to Calendar</button>
+          <button class="btn" onclick="alert('📄 PDF downloaded (mock)!')">Download PDF</button>
+          <button class="btn" onclick="alert('📧 Shared with advisor (mock)!')">Share with Advisor</button>
         </div>
-        <p>Compact, early finish</p>
-      </div>
-      <div class="card">
-        <h3>Option B</h3>
-        <div class="timetable">
-          <div class="block lecture"></div>
-          <div class="block lecture"></div>
-          <div class="block lab"></div>
+        <div style="margin-top:20px;">
+          <button class="btn" onclick="window.location.reload()">Back to Start</button>
         </div>
-        <p>Balanced workload</p>
-      </div>
-      <div class="card">
-        <h3>Option C</h3>
-        <div class="timetable">
-          <div class="block tutorial"></div>
-          <div class="block lab"></div>
-          <div class="block lecture"></div>
-        </div>
-        <p>Late start, minimal breaks</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <button class="btn">Select This Schedule</button>
-  </div>
-
-</body>
-</html>
+      `;
+    });
+  });
+</script>
