@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -51,7 +51,7 @@
     @media (max-width: 900px) { .timetables { grid-template-columns: 1fr; } }
 
     .timetable { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 10px; }
-    .block { height: 42px; border-radius: 6px; position: relative; background: var(--line); }
+    .block { height: 42px; border-radius: 6px; position: relative; }
     .block span { position: absolute; bottom: 6px; left: 8px; font-size: 11px; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
     .lecture { background: var(--lecture); }
     .tutorial { background: var(--tutorial); }
@@ -91,17 +91,15 @@
       <label><input type="checkbox" class="course-input" data-code="MATH 1104" data-title="Linear Algebra for Engineering Students" data-components="lecture,tutorial" checked /> MATH 1104 – Linear Algebra for Engineering Students</label><br>
       <label><input type="checkbox" class="course-input" data-code="ECOR 1031" data-title="Programming & Data Management" data-components="lecture,lab" checked /> ECOR 1031 – Programming & Data Management</label><br>
       <label><input type="checkbox" class="course-input" data-code="ECOR 1032" data-title="Circuits & Mechatronics" data-components="lecture,lab" checked /> ECOR 1032 – Circuits & Mechatronics</label><br>
-      <label><input type="checkbox" class="course-input" data-code="Basic Science Elective" data-title="Basic Science Elective" data-components="lecture,lab" /> Basic Science Elective</label><br>
+      <label>
+        <input type="checkbox" id="electiveToggle" class="course-input" data-code="Basic Science Elective" data-title="Basic Science Elective" data-components="lecture,lab" />
+        Basic Science Elective
+        <select id="electiveSelect" disabled>
+          <option value="">Select elective</option>
+          <option value="CHEM 1101 — Chemistry I">CHEM 1101 — Chemistry I</option>
+          <option value="BIOL 1103 — Foundations of Biology I">BIOL 1103 — Foundations of Biology I</option>
+          <option value="ERTH 1006 — Exploring Planet Earth">ERTH 1006 — Exploring Planet Earth</option>
+        </select>
+      </label><br>
       <label><input type="checkbox" class="course-input" data-code="ECOR 1055" data-title="Intro to Engineering Disciplines I" data-components="lecture" checked /> ECOR 1055 – Intro to Engineering Disciplines I (0.0 credit)</label><br>
-      <label><input type="checkbox" class="course-input" data-code="ECOR 1057" data-title="Engineering Profession" data-components="lecture" checked /> ECOR 1057 – Engineering Profession (0.0 credit)</label>
-      <div class="legend">
-        <div class="legend-item"><span class="legend-swatch" style="background: var(--lecture)"></span> Lecture</div>
-        <div class="legend-item"><span class="legend-swatch" style="background: var(--tutorial)"></span> Tutorial</div>
-        <div class="legend-item"><span class="legend-swatch" style="background: var(--lab)"></span> Lab</div>
-      </div>
-      <p class="note">Note: Some courses include tutorials (e.g., MATH 1004/1104) and some include labs (e.g., ECOR 1031/1032). These will be scheduled automatically in your timetable.</p>
-    </div>
-    <button class="btn" onclick="nextStep('step2', 2)">Next →</button>
-  </div>
-
-  <div class
+      <label><input type="checkbox" class="course-input" data-code="ECOR 1057" data-title="Engineering Profession
